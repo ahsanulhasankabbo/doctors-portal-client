@@ -3,11 +3,11 @@ import { useQuery } from 'react-query';
 import Loading from '../Shared/Loading';
 import UserRow from './UserRow';
 
-const AllUsers = () => {
-    const { data: users, isLoading, refetch } = useQuery('users', () => fetch('http://localhost:5000/user',{
+const Users = () => {
+    const { data: users, isLoading, refetch } = useQuery('users', () => fetch('https://evening-bayou-32468.herokuapp.com/user', {
         method: 'GET',
         headers:{
-            authorization : `Bearer ${localStorage.getItem('accessToken')}`
+            authorization: `Bearer ${localStorage.getItem('accessToken')}`
         }
     }).then(res => res.json()));
     if (isLoading) {
@@ -15,9 +15,9 @@ const AllUsers = () => {
     }
     return (
         <div>
-            <h2 className="text-2xl">All users : {users.length}  </h2>
-            <div className="overflow-x-auto">
-                <table className="table w-full">
+            <h2 className="text-2xl">All Users: {users.length}</h2>
+            <div class="overflow-x-auto">
+                <table class="table w-full">
                     <thead>
                         <tr>
                             <th></th>
@@ -27,13 +27,13 @@ const AllUsers = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {
-                            users.map(user => <UserRow
-                            key={user._id}
-                            user= { user}
-                            refetch= {refetch}
-                            ></UserRow>)
-                        }
+                       {
+                           users.map(user=><UserRow
+                           key={user._id}
+                           user={user}
+                           refetch={refetch}
+                           ></UserRow>)
+                       }
                     </tbody>
                 </table>
             </div>
@@ -41,4 +41,4 @@ const AllUsers = () => {
     );
 };
 
-export default AllUsers;
+export default Users;
