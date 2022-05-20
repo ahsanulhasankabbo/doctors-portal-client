@@ -2,9 +2,10 @@ import React from 'react';
 import { useCreateUserWithEmailAndPassword, useSignInWithGoogle, useUpdateProfile } from 'react-firebase-hooks/auth';
 import auth from '../../firebase.init';
 import { useForm } from "react-hook-form";
-import { signInWithEmailAndPassword } from 'firebase/auth';
 import Loading from '../Shared/Loading';
 import { Link, useNavigate } from 'react-router-dom';
+import useToken from '../../hooks/useToken';
+
 
 const SignUp = () => {
     const [signInWithGoogle, gUser, gLoading, gError] = useSignInWithGoogle(auth);
@@ -20,12 +21,15 @@ const SignUp = () => {
 
     const [updateProfile, updating, updateError] = useUpdateProfile(auth);
 
+    const [token ] = useToken(user || gUser);
+
     let signInError;
     if (loading || gLoading || updateError) {
         return <Loading></Loading>
     }
-    if (user || gUser) {
-        console.log(user || gUser);
+    if (token) {
+        // console.log(user || gUser);
+        navigate('/appoinment')
     }
     if(error || gError || updating){
         signInError = <p className='text-red-500'><small>{error?.message || gError?.message || updating?.message}</small></p>
@@ -35,7 +39,7 @@ const SignUp = () => {
         await createUserWithEmailAndPassword(data.email, data.password);
         await updateProfile({ displayName: data.name });
         console.log('update done');
-        navigate('/appoinment')
+
     }
     return (
         <div className='flex h-screen justify-center items-center'>
