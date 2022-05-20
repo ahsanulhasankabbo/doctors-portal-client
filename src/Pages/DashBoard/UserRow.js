@@ -12,14 +12,13 @@ const UserRow = ({ user, refetch }) => {
         })
             .then(res => {
                 if(res.status === 403){
-                    toast.error('Failed to make an admin')
+                    toast.error('Failed to Make an admin');
                 }
-                res.json()
-            })
+                return res.json()})
             .then(data => {
                 if (data.modifiedCount > 0) {
                     refetch();
-                    toast.success('successfully made an admin')
+                    toast.success(`Successfully made an admin`);
                 }
 
             })
@@ -28,8 +27,8 @@ const UserRow = ({ user, refetch }) => {
         <tr>
             <th>1</th>
             <td>{email}</td>
-            <td>{role !== 'admin' && <button onClick={makeAdmin} className="btn btn-xs">Make Admin</button>}</td>
-            <td><button className="btn btn-xs">Remove User</button></td>
+            <td>{role !== 'admin' && <button onClick={makeAdmin} class="btn btn-xs">Make Admin</button>}</td>
+            <td><button class="btn btn-xs">Remove User</button></td>
         </tr>
     );
 };
